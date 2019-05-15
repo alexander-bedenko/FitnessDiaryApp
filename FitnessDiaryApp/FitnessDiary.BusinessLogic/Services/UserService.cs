@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,6 +41,12 @@ namespace FitnessDiary.BusinessLogic.Services
         {
             var user = _uow.Repository<User>().Get(u => u.Email == email);
             return Mapper.Map<User, UserDto>(user);
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllAsync()
+        {
+            var user = await _uow.Repository<User>().GetAllAsync();
+            return Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(user);
         }
 
         public async Task RegisterUser(UserDto userDto)
