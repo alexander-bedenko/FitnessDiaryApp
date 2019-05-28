@@ -1,12 +1,15 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, AuthenticationService } from '../_services';
+import { HomeComponent } from '../home';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
+    public dialogRef: MatDialogRef<LoginComponent>;
     loginForm: FormGroup;
     loading = false;
     submitted = false;

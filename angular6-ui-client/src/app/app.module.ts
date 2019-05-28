@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
@@ -16,7 +17,7 @@ import { AlertService, AuthenticationService, UserService } from './_services';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
     imports: [
@@ -24,8 +25,9 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         ReactiveFormsModule,
         HttpClientModule,
         FormsModule,
-        NgbModule.forRoot(),
         routing
+,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
@@ -34,14 +36,15 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         LoginComponent,
         RegisterComponent
     ],
+    entryComponents:[HomeComponent, LoginComponent],
     providers: [
         AuthGuard,
         AlertService,
         AuthenticationService,
-        NgbActiveModal,
         UserService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
 
         // provider used to create fake backend
         //fakeBackendProvider

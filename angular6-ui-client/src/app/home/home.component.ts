@@ -1,20 +1,23 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { User } from '../_models';
 import { UserService } from '../_services';
-import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login';
+import { MatDialog } from '@angular/material';
 
 @Component(
     {
         templateUrl: 'home.component.html'
     })
+    
 export class HomeComponent implements OnInit {
     currentUser: User;
     users: User[] = [];
     closeResult: string;
+    data: string;
 
-    constructor(private userService: UserService, private modalService: NgbModal, public activeModal: NgbActiveModal) {
+    constructor(private userService: UserService, public dialog: MatDialog) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
@@ -28,22 +31,10 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    open(content) {
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-      }
-      private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-          return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-          return 'by clicking on a backdrop';
-        } else {
-          return  `with: ${reason}`;
-        }
-      }
+    // openDialog() {
+    //   const dialogRef = this.dialog.open(LoginComponent);
+    // }
+
     private loadAllUsers() {
         this.userService.getAll().pipe(first()).subscribe(users => { 
             this.users = users; 
